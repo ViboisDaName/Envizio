@@ -1,0 +1,58 @@
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
+
+const orderData = [
+	{ month: "Jan", current: 9, target: 9 },
+	{ month: "Feb", current: 9.3, target: 9.5 },
+	{ month: "Mar", current: 9.5, target: 10.2 },
+	{ month: "Apr", current: 9.7, target: 11.7 },
+	{ month: "May", current: 9.4, target: 13.4 },
+	{ month: "Jun", current: 9.9, target: 13.8 },
+	{ month: "Jul", current: 10.1, target: 14.4 },
+];
+
+const OrderChart = () => {
+	const [selectedTimeRange, setSelectedTimeRange] = useState("This Year");
+
+	return (
+		<motion.div
+			className='bg-gray-800 bg-opacity-50 backdrop-filter backdrop-blur-lg shadow-lg rounded-xl p-6 border border-gray-700 mb-8'
+			initial={{ opacity: 0, y: 20 }}
+			animate={{ opacity: 1, y: 0 }}
+			transition={{ delay: 0.2 }}
+		>
+			<div className='flex justify-between items-center mb-6'>
+				<h2 className='text-xl font-semibold text-gray-100'>Current System Efficiency vs Target System Efficiency</h2>
+				<select
+					className='bg-gray-700 text-white rounded-md px-3 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500'
+					value={selectedTimeRange}
+					onChange={(e) => setSelectedTimeRange(e.target.value)}
+				>
+					<option>This Week</option>
+					<option>This Month</option>
+					<option>This Quarter</option>
+					<option>This Year</option>
+				</select>
+			</div>
+
+			<div style={{ width: "100%", height: 400 }}>
+				<ResponsiveContainer>
+					<AreaChart data={orderData}>
+						<CartesianGrid strokeDasharray='3 3' stroke='#374151' />
+						<XAxis dataKey='month' stroke='#9CA3AF' />
+						<YAxis stroke='#9CA3AF' />
+						<Tooltip
+							contentStyle={{ backgroundColor: "rgba(31, 41, 55, 0.8)", borderColor: "#4B5563" }}
+							itemStyle={{ color: "#E5E7EB" }}
+						/>
+						<Legend />
+						<Area type='monotone' dataKey='current' stroke='#8B5CF6' fill='#8B5CF6' fillOpacity={0.3} />
+						<Area type='monotone' dataKey='target' stroke='#10B981' fill='#10B981' fillOpacity={0.3} />
+					</AreaChart>
+				</ResponsiveContainer>
+			</div>
+		</motion.div>
+	);
+};
+export default OrderChart;
